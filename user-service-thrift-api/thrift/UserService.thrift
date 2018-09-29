@@ -12,7 +12,6 @@ struct User{
 
 service UserService{
     void signUp(1:User user);
-    void signIn(1:string username, 2:string password);
     User getUserById(1:i32 id);
     User getUserByName(1:string username);
 }

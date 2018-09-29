@@ -38,6 +38,7 @@ class MessageHandler:
          - email: email address to send
          - content: message content to send
         """
+        logging.log("send message to %s: %s" % (email, content))
         mail = MIMEText(content, "plain", "utf-8")
         mail["From"] = sender
         mail["To"] = email

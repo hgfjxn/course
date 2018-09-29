@@ -1,27 +1,32 @@
 package win.hgfdodo.course.user.service;
 
 import org.apache.thrift.TException;
+import org.springframework.stereotype.Service;
 import win.hgfdodo.course.user.User;
 import win.hgfdodo.course.user.UserService;
+import win.hgfdodo.course.user.mapper.UserMapper;
 
+@Service
 public class UserServiceImpl implements UserService.Iface {
-    @Override
-    public void signUp(User user) throws TException {
 
+    private final UserMapper userMapper;
+
+    public UserServiceImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
     @Override
-    public void signIn(String username, String password) throws TException {
-
+    public void signUp(User user) throws TException {
+        userMapper.signUp(user);
     }
 
     @Override
     public User getUserById(int id) throws TException {
-        return null;
+        return userMapper.getUserById(id);
     }
 
     @Override
     public User getUserByName(String username) throws TException {
-        return null;
+        return userMapper.getUserByName(username);
     }
 }

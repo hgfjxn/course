@@ -1,0 +1,4 @@
+thrift:
+  type: win.hgfdodo.course.user.UserService.Client
+  address: localhost
+  port: 8080
