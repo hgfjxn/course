@@ -1,5 +1,6 @@
 package win.hgfdodo.course.user.controller;
 
+import org.apache.thrift.TServiceClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
     private final static Logger log = LoggerFactory.getLogger(UserController.class);
+
+    private final TServiceClient userClient;
+
+    private final TServiceClient messageClient;
+
+    public UserController(TServiceClient userClient, TServiceClient messageClient) {
+        this.userClient = userClient;
+        this.messageClient = messageClient;
+    }
 
     @PostMapping("/signin")
     public void signIn(@RequestParam("username") String username,
