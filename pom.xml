@@ -20,10 +20,13 @@
         <module>user-service-thrift-api</module>
         <module>user-edge-service</module>
         <module>thrift-client-starter</module>
+        <module>edge-service-response</module>
+        <module>utils</module>
     </modules>
 
     <properties>
         <libthrift.version>0.11.0</libthrift.version>
+        <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
     </properties>
 
 
@@ -44,7 +47,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.8.0</version>
+                    <version>${maven-compiler-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.springframework.boot</groupId>

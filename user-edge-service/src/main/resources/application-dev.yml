@@ -1,5 +1,18 @@
-thrift:
+user:
   type: win.hgfdodo.course.user.UserService.Client
   address: localhost
   port: 8080
-#debug: true
+message:
+  type: win.hgfdodo.course.message.MessageService.Client
+  address: 127.0.0.1
+  port: 9090
+spring:
+  redis:
+    host: 10.20.13.24
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+        max-wait: -1ms
