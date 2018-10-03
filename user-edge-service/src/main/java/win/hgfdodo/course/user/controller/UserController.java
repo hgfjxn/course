@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import win.hgfdodo.course.message.MessageService;
 import win.hgfdodo.course.response.ExceptionResponse;
 import win.hgfdodo.course.response.Response;
@@ -40,7 +41,8 @@ public class UserController {
         this.redisClient = redisClient;
     }
 
-    @PostMapping("/signin")
+    @PostMapping(value = "/signin", produces = "application/json")
+    @ResponseBody
     public Response signIn(@RequestParam("username") String username,
                            @RequestParam("password") String password) {
         log.debug("{} sigin ", username);
@@ -68,9 +70,11 @@ public class UserController {
         }
     }
 
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", produces = "application/json")
+    @ResponseBody
     public Response signUp(@RequestParam("username") String username,
                            @RequestParam("password") String password,
+                           @RequestParam("realname") String realname,
                            @RequestParam(value = "email", required = false) String email,
                            @RequestParam(value = "phone", required = false) String phone,
                            @RequestParam("verifyCode") String verifyCode) {
@@ -83,14 +87,27 @@ public class UserController {
         } else {
             String verifyCodeStored = (String) redisClient.get(username);
             if (verifyCode.equals(verifyCodeStored)) {
-                return Response.of(ResponseType.SIGNUP_SUCCESS);
+                String encodePassword = PasswordUtils.encodePassword(password);
+                User user = new User();
+                user.setUsername(username);
+                user.setPassword(encodePassword);
+                user.setRealname(realname);
+                user.setEmail(email);
+                user.setPhone(phone);
+                try {
+                    userServiceClient.signUp(user);
+                    return Response.of(ResponseType.SIGNUP_SUCCESS);
+                } catch (TException e) {
+                    return new ExceptionResponse(e);
+                }
             } else {
                 return Response.of(ResponseType.VERIFYCODE_IS_MISSING_OR_OUT_OF_TIME);
             }
         }
     }
 
-    @PostMapping("/verifycode")
+    @PostMapping(value = "/verifycode", produces = "application/json")
+    @ResponseBody
     public Response verifyCode(@RequestParam("username") String username,
                                @RequestParam(value = "email", required = false) String email,
                                @RequestParam(value = "phone", required = false) String phone) {
@@ -99,27 +116,31 @@ public class UserController {
             return Response.of(ResponseType.EMAIL_PHONE_BOTH_EMPTY);
         } else {
             //check username used by someone ?
-            User user = null;
-            try {
-                user = userServiceClient.getUserByName(username);
-            } catch (TException e) {
-                log.error("user thrift service exception: ", e);
-                new ExceptionResponse(e);
-            }
-            if (user != null) {
-                return Response.of(ResponseType.USERNAME_EXISTS);
-            }
+//            User user = null;
+//            try {
+//                user = userServiceClient.getUserByName(username);
+//            } catch (TException e) {
+//                log.warn("user thrift service exception: ", e);
+//            }
+//            if (user != null) {
+//                return Response.of(ResponseType.USERNAME_EXISTS);
+//            }
 
             String verifyCode = TokenUtils.veriyCode(Constants.VERIFY_CODE_LENGTH);
-            String content = String.format("Dear %s,\r\n\t ypur VerifyCode is %, please keep is secret", username, verifyCode);
+            String content = String.format("Dear %s,\r\n\t your VerifyCode is %s, please keep is secret", username, verifyCode);
+            boolean send = false;
             try {
-                if (StringUtils.isEmpty(email)) {
-                    messageServiceClient.sendEmailMessage(email, content);
+                if (!StringUtils.isEmpty(email)) {
+                    send = messageServiceClient.sendEmailMessage(email, content);
                 } else {
-                    messageServiceClient.sendMobileMessage(phone, content);
+                    send = messageServiceClient.sendMobileMessage(phone, content);
                 }
-                redisClient.set(username, verifyCode);
-                return Response.of(ResponseType.VERIFYCODE_SEND_SUCCESS);
+                if (send) {
+                    redisClient.set(username, verifyCode);
+                    return Response.of(ResponseType.VERIFYCODE_SEND_SUCCESS);
+                } else {
+                    return Response.of(ResponseType.MESSAGE_SERVICE_EXCEPTION);
+                }
             } catch (TException e) {
                 log.error("message service exception: ", e);
                 return new ExceptionResponse(e);

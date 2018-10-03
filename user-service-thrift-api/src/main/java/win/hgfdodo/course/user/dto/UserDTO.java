@@ -4,7 +4,9 @@ import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import org.springframework.beans.BeanUtils;
 import win.hgfdodo.course.user.User;
 
-public class UserDTO {
+import java.io.Serializable;
+
+public class UserDTO implements Serializable {
     public int id;
     public java.lang.String username;
     public java.lang.String password;

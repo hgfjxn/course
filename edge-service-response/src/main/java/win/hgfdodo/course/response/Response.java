@@ -4,6 +4,7 @@ public class Response {
 
     private ResponseType type;
     private boolean success;
+    private Object message;
 
     public static Response of(ResponseType type){
         return new Response(type);
@@ -12,6 +13,13 @@ public class Response {
     public Response(ResponseType type) {
         this.type = type;
         this.success = type.isPositive();
+        this.message = null;
+    }
+
+    public Response(ResponseType type, Object message) {
+        this.type = type;
+        this.success = type.isPositive();
+        this.message = message;
     }
 
     public boolean isSuccess() {
@@ -30,11 +38,20 @@ public class Response {
         this.type = type;
     }
 
+    public Object getMessage() {
+        return message;
+    }
+
+    public void setMessage(Object message) {
+        this.message = message;
+    }
+
     @Override
     public String toString() {
         return "Response{" +
                 "type=" + type +
                 ", success=" + success +
+                ", message=" + message +
                 '}';
     }
 }

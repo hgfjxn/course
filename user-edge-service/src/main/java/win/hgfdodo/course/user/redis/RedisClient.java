@@ -1,5 +1,6 @@
 package win.hgfdodo.course.user.redis;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -7,11 +8,9 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class RedisClient {
-    private final RedisTemplate<String, Object> redisTemplate;
 
-    public RedisClient(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
-    }
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     public Object get(String key) {
         return redisTemplate.opsForValue().get(key);

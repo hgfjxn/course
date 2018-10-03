@@ -30,7 +30,8 @@ class MessageHandler:
          - content: message content to send
         """
 
-        logging.log("send message to %s: %s" % (mobile, content))
+        log.info(msg="send message to %s: %s" % (mobile, content))
+        return True
 
     def sendEmailMessage(self, email, content):
         """
@@ -38,7 +39,7 @@ class MessageHandler:
          - email: email address to send
          - content: message content to send
         """
-        logging.log("send message to %s: %s" % (email, content))
+        log.info("send message to %s: %s" % (email, content))
         mail = MIMEText(content, "plain", "utf-8")
         mail["From"] = sender
         mail["To"] = email
@@ -49,6 +50,8 @@ class MessageHandler:
             smtp.sendmail(sender, [email], mail.as_string())
         except smtplib.SMTPException:
             log.error("smtplib exception")
+            return False
+        return True
 
 
 if __name__ == '__main__':
@@ -61,7 +64,7 @@ if __name__ == '__main__':
 
     server = TServer.TSimpleServer(processor, transport, transportFactory, protocolFactory)
 
-    log.info("server starting at localhost %s" % listen)
+    log.info(msg="server starting at localhost %s" % listen)
 
     server.serve()
 

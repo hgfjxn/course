@@ -10,6 +10,7 @@ public enum ResponseType {
     EMAIL_PHONE_BOTH_EMPTY(false),
     USERNAME_EXISTS(false),
     VERIFYCODE_SEND_SUCCESS(true),
+    MESSAGE_SERVICE_EXCEPTION(false),
     ;
 
     private String describe;
