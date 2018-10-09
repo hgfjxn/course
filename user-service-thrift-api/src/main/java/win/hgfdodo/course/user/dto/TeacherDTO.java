@@ -1,5 +1,6 @@
 package win.hgfdodo.course.user.dto;
 
+import org.springframework.beans.BeanUtils;
 import win.hgfdodo.course.user.User;
 
 public class TeacherDTO extends UserDTO {
@@ -29,6 +30,18 @@ public class TeacherDTO extends UserDTO {
     public static TeacherDTO fromUser(User user){
         TeacherDTO teacherDTO = new TeacherDTO(user);
         return teacherDTO;
+    }
+
+    public static User toUser(TeacherDTO teacherDTO){
+        User user = new User();
+        BeanUtils.copyProperties(teacherDTO, user);
+        return user;
+    }
+
+    public static UserDTO toUserDto(TeacherDTO teacherDTO){
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(teacherDTO, userDTO);
+        return userDTO;
     }
 
     public String getIntroduction() {

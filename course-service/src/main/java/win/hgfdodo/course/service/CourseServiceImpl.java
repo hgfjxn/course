@@ -1,10 +1,12 @@
 package win.hgfdodo.course.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import win.hgfdodo.course.dto.CourseDTO;
 import win.hgfdodo.course.mapper.CourseMapper;
+import win.hgfdodo.course.user.User;
 import win.hgfdodo.course.user.UserService;
 import win.hgfdodo.course.user.dto.TeacherDTO;
 
@@ -23,11 +25,11 @@ public class CourseServiceImpl implements CourseService {
     private final static Logger log = LoggerFactory.getLogger(CourseServiceImpl.class);
 
     private final CourseMapper courseMapper;
-    private final UserService.Iface client;
+    private final UserService.Iface userServiceClient;
 
     public CourseServiceImpl(CourseMapper courseMapper, UserService.Iface client) {
         this.courseMapper = courseMapper;
-        this.client = client;
+        this.userServiceClient = client;
     }
 
 
@@ -67,19 +69,28 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public TeacherDTO getCourseTeacher(int courseId) {
-//        int teacherId = courseMapper.getCourseTeacherId(courseId);
-//        try {
-//            User teacher = client.getTeacherById(teacherId);
-//            TeacherDTO teacherDTO = TeacherDTO.fromUser(teacher);
-//            return teacherDTO;
-//        } catch (TException e) {
-//            e.printStackTrace();
-//        }
+        int teacherId = courseMapper.getCourseTeacherId(courseId);
+        try {
+            User teacher = userServiceClient.getTeacherById(teacherId);
+            TeacherDTO teacherDTO = TeacherDTO.fromUser(teacher);
+            return teacherDTO;
+        } catch (TException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public boolean addCourse(CourseDTO courseDTO) {
+        //id > 0, 除非没有设置teacher id
+        if (courseDTO.getTeacher().getId() == 0) {
+            User user = TeacherDTO.toUser(courseDTO.getTeacher());
+            try {
+                userServiceClient.signUp(user);
+            } catch (TException e) {
+                log.error("before add course, make sure teacher exists error: {}", e);
+            }
+        }
         boolean flag = courseMapper.addCourse(courseDTO);
         flag = courseMapper.addCourseTeacher(courseDTO.getTeacher().getId(), courseDTO.getId());
         return flag;
