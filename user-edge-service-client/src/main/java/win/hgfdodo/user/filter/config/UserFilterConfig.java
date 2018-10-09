@@ -1,12 +1,11 @@
 package win.hgfdodo.user.filter.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 @ConfigurationProperties(prefix = "user.filter")
 public class UserFilterConfig {
     private String userEdgeService;
-    private String login;
+    private String loginPage;
     private String authentication;
 
     public String getUserEdgeService() {
@@ -25,19 +24,19 @@ public class UserFilterConfig {
         this.authentication = authentication;
     }
 
-    public String getLogin() {
-        return login;
+    public String getLoginPage() {
+        return loginPage;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setLoginPage(String loginPage) {
+        this.loginPage = loginPage;
     }
 
     @Override
     public String toString() {
         return "UserFilterConfig{" +
                 "userEdgeService='" + userEdgeService + '\'' +
-                ", login='" + login + '\'' +
+                ", loginPage='" + loginPage + '\'' +
                 ", authentication='" + authentication + '\'' +
                 '}';
     }

@@ -10,7 +10,7 @@ dubbo:
     name: dubbo
     port: 12345
   scan:
-    base-packages: win.hgfdodo.course.service
+    basePackages: win.hgfdodo.course.service
   registry:
     id: my-registry
     address: N/A

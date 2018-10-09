@@ -4,10 +4,13 @@ package win.hgfdodo.user.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 import win.hgfdodo.course.user.dto.UserDTO;
 import win.hgfdodo.user.filter.config.UserFilterConfig;
@@ -22,7 +25,6 @@ import java.io.InputStream;
 
 @Configuration
 @EnableConfigurationProperties(UserFilterConfig.class)
-@WebFilter
 public abstract class LoginFilter implements Filter {
 
     private final UserFilterConfig userFilterConfig;
@@ -59,28 +61,32 @@ public abstract class LoginFilter implements Filter {
             userDTO = getUserInfo(token);
         }
         if (userDTO == null) {
-            response.sendRedirect(userFilterConfig.getUserEdgeService() + userFilterConfig.getLogin());
+            response.sendRedirect(userFilterConfig.getUserEdgeService() + userFilterConfig.getLoginPage());
             return;
         }
 
-        login(request, response, userDTO);
+        afterLogin(request, response, userDTO);
 
         filterChain.doFilter(request, response);
 
     }
 
-    protected abstract void login(HttpServletRequest request, HttpServletResponse response, UserDTO userDTO);
+    protected abstract void afterLogin(HttpServletRequest request, HttpServletResponse response, UserDTO userDTO);
 
     private UserDTO getUserInfo(String token) {
         CloseableHttpClient client = HttpClientBuilder.create().build();
-        HttpGet post = new HttpGet(userFilterConfig.getUserEdgeService() + userFilterConfig.getAuthentication());
-        post.addHeader("token", token);
+        HttpPost post = new HttpPost(userFilterConfig.getUserEdgeService() + userFilterConfig.getAuthentication() + "?token=" + token);
         try {
             HttpResponse response = client.execute(post);
-            InputStream in = response.getEntity().getContent();
-            ObjectMapper objectMapper = new ObjectMapper();
-            UserDTO userDTO = objectMapper.readValue(in, UserDTO.class);
-            return userDTO;
+            String responseEntity = EntityUtils.toString(response.getEntity());
+            if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
+
+                ObjectMapper objectMapper = new ObjectMapper();
+                UserDTO userDTO = objectMapper.readValue(responseEntity, UserDTO.class);
+                return userDTO;
+            } else {
+                throw new RuntimeException("expect to get user information, but get: " + responseEntity);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

@@ -154,7 +154,7 @@ public class UserController {
     @ResponseBody
     public UserDTO authentication(@RequestParam("token")String token){
         log.debug("Request to get user information by token: {}", token);
-        if(StringUtils.isEmpty(token)){
+        if(!StringUtils.isEmpty(token)){
             UserDTO userDTO = (UserDTO) redisClient.get(token);
             return userDTO;
         }else {

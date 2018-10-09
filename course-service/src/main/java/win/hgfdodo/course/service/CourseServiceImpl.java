@@ -1,12 +1,10 @@
 package win.hgfdodo.course.service;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import org.apache.thrift.TException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import win.hgfdodo.course.dto.CourseDTO;
 import win.hgfdodo.course.mapper.CourseMapper;
-import win.hgfdodo.course.user.User;
 import win.hgfdodo.course.user.UserService;
 import win.hgfdodo.course.user.dto.TeacherDTO;
 
@@ -20,14 +18,14 @@ import java.util.List;
         application = "${dubbo.application.id}",
         protocol = "${dubbo.protocol.id}",
         registry = "${dubbo.registry.id}")
-public class CourseServiceimpl implements CourseService {
+public class CourseServiceImpl implements CourseService {
 
-    private final static Logger log = LoggerFactory.getLogger(CourseServiceimpl.class);
+    private final static Logger log = LoggerFactory.getLogger(CourseServiceImpl.class);
 
     private final CourseMapper courseMapper;
     private final UserService.Iface client;
 
-    public CourseServiceimpl(CourseMapper courseMapper, UserService.Iface client) {
+    public CourseServiceImpl(CourseMapper courseMapper, UserService.Iface client) {
         this.courseMapper = courseMapper;
         this.client = client;
     }
@@ -69,14 +67,14 @@ public class CourseServiceimpl implements CourseService {
 
     @Override
     public TeacherDTO getCourseTeacher(int courseId) {
-        int teacherId = courseMapper.getCourseTeacherId(courseId);
-        try {
-            User teacher = client.getTeacherById(teacherId);
-            TeacherDTO teacherDTO = TeacherDTO.fromUser(teacher);
-            return teacherDTO;
-        } catch (TException e) {
-            e.printStackTrace();
-        }
+//        int teacherId = courseMapper.getCourseTeacherId(courseId);
+//        try {
+//            User teacher = client.getTeacherById(teacherId);
+//            TeacherDTO teacherDTO = TeacherDTO.fromUser(teacher);
+//            return teacherDTO;
+//        } catch (TException e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
 

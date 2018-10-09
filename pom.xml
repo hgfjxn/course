@@ -26,6 +26,7 @@
         <module>course-service</module>
         <module>user-edge-service-client</module>
         <module>course-edge-service</module>
+        <module>api-gateway</module>
     </modules>
 
     <properties>

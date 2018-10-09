@@ -19,5 +19,10 @@ public interface CourseService {
 
     public boolean deleteCourse(int id);
 
+    /**
+     * return origin courseDTO
+     * @param courseDTO
+     * @return
+     */
     public CourseDTO updateCourse(CourseDTO courseDTO);
 }

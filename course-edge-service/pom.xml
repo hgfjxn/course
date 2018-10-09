@@ -15,10 +15,9 @@
 
         <dependency>
             <groupId>win.hgfdodo</groupId>
-            <artifactId>course-service</artifactId>
+            <artifactId>course-service-api</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>win.hgfdodo</groupId>
             <artifactId>user-edge-service-client</artifactId>

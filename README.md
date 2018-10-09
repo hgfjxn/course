@@ -15,11 +15,11 @@ port: 8888
 
 ## 课程服务
 
-port: 6060
+port: 9999
 
 ## 课程Edge Service
 
-port: 6666
+port: 9966
 
 
 ## thrift client auto config

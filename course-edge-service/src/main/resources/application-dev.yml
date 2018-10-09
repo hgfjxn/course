@@ -1,0 +1,13 @@
+course:
+  service:
+    version: 1.0.0
+    url: dubbo://localhost:12345
+dubbo:
+  application:
+    id: course-wdge-service
+    name: course-wdge-service
+user:
+  filter:
+    user-edge-service: http://localhost:8888/user
+    login-page: /login
+    authentication: /authentication
