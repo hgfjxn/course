@@ -21,6 +21,10 @@ port: 9999
 
 port: 9966
 
+## api gateway
+
+port: 10000
+
 
 ## thrift client auto config
 

@@ -35,7 +35,7 @@ public class CourseController {
         return courseService.addCourse(courseDTO);
     }
 
-    @GetMapping(value = "/courses", produces = "application/json")
+    @GetMapping(value = "/course/all", produces = "application/json")
     @ResponseBody
     public List<CourseDTO> getCourses(HttpServletRequest request) {
         log.debug("Request to get courses");
