@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import win.hgfdodo.course.user.User;
 import win.hgfdodo.course.user.UserService;
 import win.hgfdodo.course.user.mapper.UserMapper;
+import win.hgfdodo.course.utils.PasswordUtils;
 
 @Service
 public class UserServiceImpl implements UserService.Iface {
@@ -17,6 +18,7 @@ public class UserServiceImpl implements UserService.Iface {
 
     @Override
     public void signUp(User user) throws TException {
+        user.setPassword(PasswordUtils.encodePassword(user.getPassword()));
         userMapper.signUp(user);
     }
 

@@ -69,13 +69,15 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public TeacherDTO getCourseTeacher(int courseId) {
-        int teacherId = courseMapper.getCourseTeacherId(courseId);
-        try {
-            User teacher = userServiceClient.getTeacherById(teacherId);
-            TeacherDTO teacherDTO = TeacherDTO.fromUser(teacher);
-            return teacherDTO;
-        } catch (TException e) {
-            e.printStackTrace();
+        Integer teacherId = courseMapper.getCourseTeacherId(courseId);
+        if (teacherId != null) {
+            try {
+                User teacher = userServiceClient.getTeacherById(teacherId);
+                TeacherDTO teacherDTO = TeacherDTO.fromUser(teacher);
+                return teacherDTO;
+            } catch (TException e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }
@@ -86,14 +88,22 @@ public class CourseServiceImpl implements CourseService {
         if (courseDTO.getTeacher().getId() == 0) {
             User user = TeacherDTO.toUser(courseDTO.getTeacher());
             try {
-                userServiceClient.signUp(user);
+                user = userServiceClient.getUserByName(user.getUsername());
+                if (user == null) {
+                    userServiceClient.signUp(user);
+                    user = userServiceClient.getUserByName(user.getUsername());
+                }
+                courseDTO.getTeacher().setId(user.getId());
             } catch (TException e) {
                 log.error("before add course, make sure teacher exists error: {}", e);
+                return false;
             }
         }
-        boolean flag = courseMapper.addCourse(courseDTO);
-        flag = courseMapper.addCourseTeacher(courseDTO.getTeacher().getId(), courseDTO.getId());
-        return flag;
+        int num = courseMapper.addCourse(courseDTO);
+        System.out.println("added NUM: " + num);
+        CourseDTO added = courseMapper.getCourseByTitle(courseDTO.getTitle());
+        courseMapper.addCourseTeacher(courseDTO.getTeacher().getId(), added.getId());
+        return true;
     }
 
     @Override

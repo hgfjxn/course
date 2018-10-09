@@ -27,6 +27,10 @@ public class TeacherDTO extends UserDTO {
         this.stars = user.getStars();
     }
 
+    public TeacherDTO(UserDTO userDTO){
+        super(userDTO.id, userDTO.username, userDTO.password, userDTO.realname, userDTO.email, userDTO.phone);
+    }
+
     public static TeacherDTO fromUser(User user){
         TeacherDTO teacherDTO = new TeacherDTO(user);
         return teacherDTO;

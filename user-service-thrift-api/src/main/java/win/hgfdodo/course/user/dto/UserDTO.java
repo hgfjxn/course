@@ -8,11 +8,11 @@ import java.io.Serializable;
 
 public class UserDTO implements Serializable {
     public int id;
-    public java.lang.String username;
-    public java.lang.String password;
-    public java.lang.String realname;
-    public java.lang.String email;
-    public java.lang.String phone;
+    public String username;
+    public String password;
+    public String realname;
+    public String email;
+    public String phone;
 
     public UserDTO() {
     }

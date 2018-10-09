@@ -21,7 +21,7 @@ public interface CourseMapper {
             "#{course.students}, #{course.stars}, " +
             "#{course.address}, #{course.price}, " +
             "#{course.starttime})")
-    public boolean addCourse(@Param("course") CourseDTO courseDTO);
+    public Integer addCourse(@Param("course") CourseDTO courseDTO);
 
     @Insert("insert into pr_user_course(user_id, course_id) values(#{userId}, #{courseId})")
     public boolean addCourseTeacher(@Param("userId") int userId, @Param("courseId") int courseId);
@@ -46,5 +46,5 @@ public interface CourseMapper {
     public List<CourseDTO> getCourses();
 
     @Select("select user_id from pr_user_course where course_id=#{courseId}")
-    public int getCourseTeacherId(@Param("courseId") int courseId);
+    public Integer getCourseTeacherId(@Param("courseId") int courseId);
 }

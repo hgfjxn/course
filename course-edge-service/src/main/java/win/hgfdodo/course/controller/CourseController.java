@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 import win.hgfdodo.course.dto.CourseDTO;
 import win.hgfdodo.course.service.CourseService;
+import win.hgfdodo.course.user.dto.TeacherDTO;
 import win.hgfdodo.course.user.dto.UserDTO;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,8 +23,15 @@ public class CourseController {
     private CourseService courseService;
 
     @PostMapping("/course")
-    public boolean addCourse(@RequestParam("course")CourseDTO courseDTO){
+    public boolean addCourse(@RequestBody CourseDTO courseDTO, HttpServletRequest request) {
         log.debug("Request to add course: {}", courseDTO);
+
+        //默认课程教师为当前的添加者
+        if (courseDTO.getTeacher() == null) {
+            UserDTO userDTO = (UserDTO) request.getAttribute("user");
+            TeacherDTO teacherDTO = new TeacherDTO(userDTO);
+            courseDTO.setTeacher(teacherDTO);
+        }
         return courseService.addCourse(courseDTO);
     }
 
@@ -50,7 +58,7 @@ public class CourseController {
     }
 
     @PutMapping("/course")
-    public CourseDTO updateCourse(@RequestParam("course") CourseDTO courseDTO) {
+    public CourseDTO updateCourse(@RequestBody CourseDTO courseDTO) {
         log.debug("Request to update course to", courseDTO);
         return courseService.updateCourse(courseDTO);
     }
