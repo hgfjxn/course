@@ -5,10 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import win.hgfdodo.course.message.MessageService;
 import win.hgfdodo.course.response.ExceptionResponse;
 import win.hgfdodo.course.response.Response;
@@ -39,6 +36,11 @@ public class UserController {
         this.userServiceClient = userServiceClient;
         this.messageServiceClient = messageServiceClient;
         this.redisClient = redisClient;
+    }
+
+    @GetMapping(value = "/login")
+    public String login(){
+        return "login";
     }
 
     @PostMapping(value = "/signin", produces = "application/json")
@@ -145,6 +147,18 @@ public class UserController {
                 log.error("message service exception: ", e);
                 return new ExceptionResponse(e);
             }
+        }
+    }
+
+    @PostMapping(value = "/authentication", produces = "application/json")
+    @ResponseBody
+    public UserDTO authentication(@RequestParam("token")String token){
+        log.debug("Request to get user information by token: {}", token);
+        if(StringUtils.isEmpty(token)){
+            UserDTO userDTO = (UserDTO) redisClient.get(token);
+            return userDTO;
+        }else {
+            return null;
         }
     }
 }

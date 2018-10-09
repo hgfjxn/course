@@ -7,11 +7,13 @@ struct User{
     4:string realname,
     5:string email,
     6:string phone,
-    7:bool teacher
+    7:string introduction,
+    8:i32 stars
 }
 
 service UserService{
     void signUp(1:User user);
     User getUserById(1:i32 id);
     User getUserByName(1:string username);
+    User getTeacherById(1:i32 id);
 }

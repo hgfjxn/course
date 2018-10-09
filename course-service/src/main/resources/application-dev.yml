@@ -1,0 +1,20 @@
+course:
+  service:
+    version: 1.0.0
+dubbo:
+  application:
+    id: course-service
+    name: course-service
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 12345
+  scan:
+    base-packages: win.hgfdodo.course.service
+  registry:
+    id: my-registry
+    address: N/A
+thrift:
+  type: win.hgfdodo.course.user.UserService.Client
+  address: localhost
+  port: 8080

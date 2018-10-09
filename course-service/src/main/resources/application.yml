@@ -6,3 +6,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: hgfgood
+  application:
+    name: course-service
+server:
+  port: 6060

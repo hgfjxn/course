@@ -34,8 +34,8 @@ public class ThriftClientAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(TServiceClient.class)
     @ConditionalOnClass(TServiceClient.class)
-    @ConditionalOnBean(ThriftConfig.class)
-    public TServiceClient getThriftClient(){
+// TODO  配置类会创建Bean吗？为什么thriftconfig已经有了实例却不能满足 @ConditionalOnBean(ThriftConfig.class)
+    public TServiceClient getThriftClient() {
 
         log.info("generate thrift client with framed transport and binary protocol!");
         return new ThriftClientBuilder().thriftConfig(thriftConfig).build();

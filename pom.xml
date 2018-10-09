@@ -22,7 +22,10 @@
         <module>thrift-client-starter</module>
         <module>edge-service-response</module>
         <module>utils</module>
+        <module>course-service-api</module>
         <module>course-service</module>
+        <module>user-edge-service-client</module>
+        <module>course-edge-service</module>
     </modules>
 
     <properties>

@@ -29,4 +29,10 @@ public class UserServiceImpl implements UserService.Iface {
     public User getUserByName(String username) throws TException {
         return userMapper.getUserByName(username);
     }
+
+    @Override
+    public User getTeacherById(int id) throws TException {
+        return userMapper.getTeacherById(id);
+    }
+
 }

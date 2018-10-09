@@ -20,4 +20,7 @@ public interface UserMapper {
             "values" +
             "(#{user.username}, #{user.password}, #{user.realname}, #{user.phone}, #{user.email})")
     void signUp(@Param("user") User user);
+
+    @Select("select id, username, password, realname, phone, email, introduction, stars from pe_user where id=#{id}")
+    User getTeacherById(@Param("id") int id);
 }

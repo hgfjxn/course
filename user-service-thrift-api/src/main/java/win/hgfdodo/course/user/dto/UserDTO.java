@@ -1,7 +1,5 @@
 package win.hgfdodo.course.user.dto;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
-import org.springframework.beans.BeanUtils;
 import win.hgfdodo.course.user.User;
 
 import java.io.Serializable;
@@ -36,8 +34,7 @@ public class UserDTO implements Serializable {
     }
 
     public static UserDTO fromUser(User user){
-        UserDTO userDto = new UserDTO();
-        BeanUtils.copyProperties(user, userDto);
+        UserDTO userDto = new UserDTO(user);
         return userDto;
     }
 
