@@ -17,9 +17,10 @@ public class CourseController {
 
     private final static Logger log = LoggerFactory.getLogger(CourseController.class);
 
-    @Reference(version = "${course.service.version}",
-            application = "${dubbo.application.id}",
-            url = "${course.service.url}")
+//    @Reference(version = "${course.service.version}",
+//            application = "${dubbo.application.id}",
+//            registry = "${dubbo.registry.address}")
+    @Reference(version = "1.0.0")
     private CourseService courseService;
 
     @PostMapping("/course")
