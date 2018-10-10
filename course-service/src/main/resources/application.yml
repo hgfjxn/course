@@ -1,11 +1,6 @@
 spring:
   profiles:
-    active: dev
-  datasource:
-    url: jdbc:mysql://10.20.13.24:3306/db_course?useSSL=false
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: hgfgood
+    active: prod
   application:
     name: course-service
 server:

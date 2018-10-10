@@ -1,19 +1,18 @@
 user:
   type: win.hgfdodo.course.user.UserService.Client
-  address: localhost
+  address: user-service
   port: 8080
 message:
   type: win.hgfdodo.course.message.MessageService.Client
-  address: 127.0.0.1
+  address: message-service
   port: 9090
 spring:
   redis:
-    host: 10.20.13.24
-    port: 6379
+    host: ${redis.address}
+    port: ${redis.port}
     jedis:
       pool:
         max-active: 8
         max-idle: 8
         min-idle: 0
         max-wait: -1ms
-#debug: true

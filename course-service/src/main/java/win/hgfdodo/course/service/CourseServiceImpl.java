@@ -16,10 +16,11 @@ import java.util.List;
  * Assume parameter is not null
  */
 
-@Service(version = "${course.service.version}",
-        application = "${dubbo.application.id}",
-        protocol = "${dubbo.protocol.id}",
-        registry = "${dubbo.registry.id}")
+//@Service(version = "${course.service.version}",
+//        application = "${dubbo.application.id}",
+//        protocol = "${dubbo.protocol.id}",
+//        registry = "${dubbo.registry.id}")
+@Service(version = "1.0.0")
 public class CourseServiceImpl implements CourseService {
 
     private final static Logger log = LoggerFactory.getLogger(CourseServiceImpl.class);

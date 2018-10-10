@@ -1,13 +1,3 @@
-server:
-  port: 10000
 spring:
-  application:
-    name: course-api-gateway
-zuul:
-  routes:
-    course:
-      path: /course/**
-      url: http://127.0.0.1:9966/course/
-    user:
-      path: /user/**
-      url: http://127.0.0.1:8888/user/
+  profiles:
+    active: prod
