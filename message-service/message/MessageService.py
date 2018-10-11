@@ -58,7 +58,7 @@ if __name__ == '__main__':
     listen = 9090
     handler = MessageHandler()
     processor = MessageService.Processor(handler)
-    transport = TSocket.TServerSocket('127.0.0.1', listen)
+    transport = TSocket.TServerSocket('0.0.0.0', listen)
     transportFactory = TTransport.TFramedTransportFactory()
     protocolFactory = TBinaryProtocol.TBinaryProtocolFactory()
 

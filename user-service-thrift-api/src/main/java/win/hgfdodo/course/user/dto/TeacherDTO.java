@@ -3,6 +3,8 @@ package win.hgfdodo.course.user.dto;
 import org.springframework.beans.BeanUtils;
 import win.hgfdodo.course.user.User;
 
+import java.io.Serializable;
+
 public class TeacherDTO extends UserDTO {
     private String introduction;
     private int stars;

@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
@@ -60,6 +60,7 @@ public class UserController {
             log.error("user service exception ", e);
             return new ExceptionResponse(e);
         }
+        log.info("compare password, raw : {}, encoded: {}", password, user.getPassword());
         if (PasswordUtils.matched(password, user.getPassword())) {
             //生成token
             String token = TokenUtils.token(Constants.TOKEN_LENGTH);
@@ -90,6 +91,7 @@ public class UserController {
             String verifyCodeStored = (String) redisClient.get(username);
             if (verifyCode.equals(verifyCodeStored)) {
                 String encodePassword = PasswordUtils.encodePassword(password);
+                log.info("raw password: {}, encoded password: {}", password, encodePassword);
                 User user = new User();
                 user.setUsername(username);
                 user.setPassword(encodePassword);
@@ -117,16 +119,17 @@ public class UserController {
         if (StringUtils.isEmpty(email) && StringUtils.isEmpty(phone)) {
             return Response.of(ResponseType.EMAIL_PHONE_BOTH_EMPTY);
         } else {
-            //check username used by someone ?
-//            User user = null;
-//            try {
-//                user = userServiceClient.getUserByName(username);
-//            } catch (TException e) {
-//                log.warn("user thrift service exception: ", e);
-//            }
-//            if (user != null) {
-//                return Response.of(ResponseType.USERNAME_EXISTS);
-//            }
+//            check username used by someone ?
+            User user = null;
+            try {
+                user = userServiceClient.getUserByName(username);
+            } catch (TException e) {
+                log.warn("user thrift service exception");
+                log.debug("user thrift service exception detail: {}", e);
+            }
+            if (user != null) {
+                return Response.of(ResponseType.USERNAME_EXISTS);
+            }
 
             String verifyCode = TokenUtils.veriyCode(Constants.VERIFY_CODE_LENGTH);
             String content = String.format("Dear %s,\r\n\t your VerifyCode is %s, please keep is secret", username, verifyCode);
@@ -152,12 +155,12 @@ public class UserController {
 
     @PostMapping(value = "/authentication", produces = "application/json")
     @ResponseBody
-    public UserDTO authentication(@RequestParam("token")String token){
+    public UserDTO authentication(@RequestParam("token") String token) {
         log.debug("Request to get user information by token: {}", token);
-        if(!StringUtils.isEmpty(token)){
+        if (!StringUtils.isEmpty(token)) {
             UserDTO userDTO = (UserDTO) redisClient.get(token);
             return userDTO;
-        }else {
+        } else {
             return null;
         }
     }

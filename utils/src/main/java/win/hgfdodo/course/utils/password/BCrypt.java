@@ -27,7 +27,7 @@ import java.security.SecureRandom;
  * The work factor of the algorithm is parameterised, so it can be increased as computers
  * get faster.
  * <p>
- * Usage is really simple. To hash a password for the first time, call the hashpw method
+ * Usage is really edge. To hash a password for the first time, call the hashpw method
  * with a random salt, like this:
  * <p>
  * <code>

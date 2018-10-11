@@ -9,10 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>course-edge-service</artifactId>
+    <artifactId>simple-dubbo-consumer</artifactId>
 
     <dependencies>
-
         <dependency>
             <groupId>win.hgfdodo</groupId>
             <artifactId>course-service-api</artifactId>
@@ -57,6 +56,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
     </dependencies>
+
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

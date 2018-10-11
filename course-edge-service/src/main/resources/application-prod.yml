@@ -7,6 +7,6 @@ spring:
     scan: win.hgfdodo.course.controller
 user:
   filter:
-    user-edge-service: http://user-edge-service:8888/user
+    user-edge-service: http://127.0.0.1:10000/user
     login-page: /login
     authentication: /authentication

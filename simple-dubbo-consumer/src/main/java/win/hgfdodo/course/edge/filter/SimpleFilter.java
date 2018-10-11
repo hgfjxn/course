@@ -1,4 +1,4 @@
-package win.hgfdodo.course.filter;
+package win.hgfdodo.course.edge.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Component
-public class CourseFilter extends LoginFilter {
+public class SimpleFilter extends LoginFilter {
+    private Logger log = LoggerFactory.getLogger(SimpleFilter.class);
 
-    private Logger log = LoggerFactory.getLogger(CourseFilter.class);
-
-    public CourseFilter(UserFilterConfig userFilterConfig) {
+    public SimpleFilter(UserFilterConfig userFilterConfig) {
         super(userFilterConfig);
         log.info("user filter config: {}" + userFilterConfig);
     }
@@ -24,5 +23,4 @@ public class CourseFilter extends LoginFilter {
     protected void afterLogin(HttpServletRequest request, HttpServletResponse response, UserDTO userDTO) {
         request.setAttribute("user", userDTO);
     }
-
 }

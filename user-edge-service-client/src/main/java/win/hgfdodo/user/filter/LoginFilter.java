@@ -2,12 +2,16 @@ package win.hgfdodo.user.filter;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -22,12 +26,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 @EnableConfigurationProperties(UserFilterConfig.class)
 public abstract class LoginFilter implements Filter {
 
+    private static final Logger log = LoggerFactory.getLogger(LoginFilter.class);
+
     private final UserFilterConfig userFilterConfig;
+
+    private Cache<String, UserDTO> cache = CacheBuilder.newBuilder()
+            .maximumSize(100)
+            .expireAfterWrite(5, TimeUnit.MINUTES)
+            .build();
 
     public LoginFilter(UserFilterConfig userFilterConfig) {
         this.userFilterConfig = userFilterConfig;
@@ -58,9 +70,16 @@ public abstract class LoginFilter implements Filter {
 
         UserDTO userDTO = null;
         if (!StringUtils.isEmpty(token)) {
-            userDTO = getUserInfo(token);
+            userDTO = cache.getIfPresent(token);
+            if (userDTO == null) {
+                userDTO = getUserInfo(token);
+                if (userDTO != null) {
+                    cache.put(token, userDTO);
+                }
+            }
         }
         if (userDTO == null) {
+            log.info("redirect to " + userFilterConfig.getUserEdgeService() + userFilterConfig.getLoginPage());
             response.sendRedirect(userFilterConfig.getUserEdgeService() + userFilterConfig.getLoginPage());
             return;
         }
@@ -79,13 +98,13 @@ public abstract class LoginFilter implements Filter {
         try {
             HttpResponse response = client.execute(post);
             String responseEntity = EntityUtils.toString(response.getEntity());
-            if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value()) {
+            if (response.getStatusLine().getStatusCode() == HttpStatus.OK.value() && !StringUtils.isEmpty(responseEntity)) {
 
                 ObjectMapper objectMapper = new ObjectMapper();
                 UserDTO userDTO = objectMapper.readValue(responseEntity, UserDTO.class);
                 return userDTO;
             } else {
-                throw new RuntimeException("expect to get user information, but get: " + responseEntity);
+                return null;
             }
         } catch (IOException e) {
             e.printStackTrace();

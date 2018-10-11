@@ -27,6 +27,7 @@
         <module>user-edge-service-client</module>
         <module>course-edge-service</module>
         <module>api-gateway</module>
+        <module>simple-dubbo-consumer</module>
     </modules>
 
     <properties>

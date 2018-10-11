@@ -1,0 +1,10 @@
+server:
+  port: 9666
+
+spring:
+  dubbo:
+    application:
+      name: edge-consumer
+    registry:
+      address: zookeeper://${zookeeper.address}:2181
+    scan: win.hgfdodo.course.edge.controller

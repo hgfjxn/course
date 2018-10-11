@@ -68,6 +68,7 @@ public class CourseServiceImpl implements CourseService {
         return courseDTOS;
     }
 
+    //TODO：此处thrift会再次请求thrift服务？怎么处理的嵌套请求。
     @Override
     public TeacherDTO getCourseTeacher(int courseId) {
         Integer teacherId = courseMapper.getCourseTeacherId(courseId);

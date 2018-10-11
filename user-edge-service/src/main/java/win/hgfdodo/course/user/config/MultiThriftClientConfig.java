@@ -1,5 +1,7 @@
 package win.hgfdodo.course.user.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +13,7 @@ import win.hgfdodo.thrift.config.ThriftConfig;
 @Configuration
 @ConfigurationProperties
 public class MultiThriftClientConfig {
+    private static final Logger log = LoggerFactory.getLogger(MultiThriftClientConfig.class);
 
     private ThriftConfig user;
     private ThriftConfig message;
@@ -49,11 +52,13 @@ public class MultiThriftClientConfig {
 
     @Bean
     public UserService.Client getUserService() {
+        log.info("user thrift service  config : {}" , user);
         return new ThriftClientBuilder<UserService.Client>().thriftConfig(user).build();
     }
 
     @Bean
     public MessageService.Client getMessageService() {
+        log.info("message thrift service config : {}" , user);
         return new ThriftClientBuilder<MessageService.Client>().thriftConfig(message).build();
     }
 }

@@ -1,4 +1,4 @@
-package win.hgfdodo.course.controller;
+package win.hgfdodo.course.edge.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;
@@ -13,9 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-public class CourseController {
+@RequestMapping("/simple")
+public class SimpleController {
 
-    private final static Logger log = LoggerFactory.getLogger(CourseController.class);
+    private final static Logger log = LoggerFactory.getLogger(SimpleController.class);
 
     @Reference(version = "1.0.0")
     private CourseService courseService;

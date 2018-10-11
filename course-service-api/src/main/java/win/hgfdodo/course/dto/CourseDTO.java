@@ -4,6 +4,7 @@ import win.hgfdodo.course.user.dto.TeacherDTO;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 public class CourseDTO implements Serializable {
@@ -15,12 +16,12 @@ public class CourseDTO implements Serializable {
     public double price;
     public int stars;
     public TeacherDTO teacher;
-    public LocalDateTime starttime;
+    public Date starttime;
 
     public CourseDTO() {
     }
 
-    public CourseDTO(int id, String title, String description, int students, String address, double price, int stars, TeacherDTO teacher, LocalDateTime starttime) {
+    public CourseDTO(int id, String title, String description, int students, String address, double price, int stars, TeacherDTO teacher, Date starttime) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -96,11 +97,11 @@ public class CourseDTO implements Serializable {
         this.description = description;
     }
 
-    public LocalDateTime getStarttime() {
+    public Date getStarttime() {
         return starttime;
     }
 
-    public void setStarttime(LocalDateTime starttime) {
+    public void setStarttime(Date starttime) {
         this.starttime = starttime;
     }
 

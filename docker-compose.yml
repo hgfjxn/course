@@ -6,34 +6,32 @@ services:
   user-service:
     image: user-service:latest
     command:
-      - "--mysql.address=10.130.9.31"
-      - "--mysql.port=3306"
+    - "--mysql.address=10.130.9.31"
+    - "--mysql.port=3306"
   user-edge-service:
     image: user-edge-service:latest
     links:
-      - user-service
-      - message-service
+    - message-service
+    - user-service
     command:
-      - "--redis.address=10.130.9.31"
-      - "--redis.port=6379"
+    - "--redis.address=10.130.9.31"
+    - "--redis.port=6379"
   course-service:
     image: course-service:latest
     links:
-      - user-service
+    - user-service
     command:
-      - "--zookeeper.address=10.130.9.31"
-      - "--mysql.address=10.130.9.31"
-      - "--mysql.port=3306"
+    - "--zookeeper.address=10.130.9.31"
+    - "--mysql.address=10.130.9.31"
+    - "--mysql.port=3306"
   course-edge-service:
     image: course-edge-service:latest
-    links:
-      - user-edge-service
     command:
-      - "--zookeeper.address=10.130.9.31"
+    - "--zookeeper.address=10.130.9.31"
   api-gateway:
     image: api-gateway:latest
     links:
-      - course-edge-service
-      - user-edge-service
+    - course-edge-service
+    - user-edge-service
     ports:
-      - 10000: 10000
+    - 10000:10000
