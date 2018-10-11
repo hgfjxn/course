@@ -1,4 +1,4 @@
-package win.hgfdodo.course.controller;
+package win.hgfdodo.course.edge.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import org.slf4j.Logger;

@@ -1,4 +1,4 @@
-package win.hgfdodo.course.filter;
+package win.hgfdodo.course.edge.filter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
