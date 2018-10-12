@@ -1,12 +1,11 @@
 spring:
   dubbo:
     application:
-      name: edge-consumer
+      name: course-edge-service
     registry:
       address: zookeeper://${zookeeper.address}:2181
     scan: win.hgfdodo.course.edge.controller
 user:
   filter:
-    user-edge-service: http://localhost:8888/user
-    login-page: /login
-    authentication: /authentication
+    login-page: http://localhost:8888/user/login
+    authentication: http://localhost:8888/user/authentication

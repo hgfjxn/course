@@ -1,5 +1,4 @@
 user:
   filter:
-    user-edge-service: http://localhost:8888/user
-    login-page: /login
-    authentication: /authentication
+    login-page: http://localhost:8888/user/login
+    authentication: http://localhost:8888/user/authentication

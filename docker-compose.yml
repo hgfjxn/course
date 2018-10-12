@@ -26,6 +26,8 @@ services:
     - "--mysql.port=3306"
   course-edge-service:
     image: course-edge-service:latest
+    links:
+      - user-edge-service
     command:
     - "--zookeeper.address=10.130.9.31"
   api-gateway:

@@ -79,8 +79,8 @@ public abstract class LoginFilter implements Filter {
             }
         }
         if (userDTO == null) {
-            log.info("redirect to " + userFilterConfig.getUserEdgeService() + userFilterConfig.getLoginPage());
-            response.sendRedirect(userFilterConfig.getUserEdgeService() + userFilterConfig.getLoginPage());
+            log.info("redirect to " + userFilterConfig.getLoginPage());
+            response.sendRedirect(userFilterConfig.getLoginPage());
             return;
         }
 
@@ -94,7 +94,7 @@ public abstract class LoginFilter implements Filter {
 
     private UserDTO getUserInfo(String token) {
         CloseableHttpClient client = HttpClientBuilder.create().build();
-        HttpPost post = new HttpPost(userFilterConfig.getUserEdgeService() + userFilterConfig.getAuthentication() + "?token=" + token);
+        HttpPost post = new HttpPost(userFilterConfig.getAuthentication() + "?token=" + token);
         try {
             HttpResponse response = client.execute(post);
             String responseEntity = EntityUtils.toString(response.getEntity());

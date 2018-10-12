@@ -4,9 +4,8 @@ spring:
       name: course-edge-service
     registry:
       address: zookeeper://${zookeeper.address}:2181
-    scan: win.hgfdodo.course.controller
+    scan: win.hgfdodo.course.edge.controller
 user:
   filter:
-    user-edge-service: http://127.0.0.1:10000/user
-    login-page: /login
-    authentication: /authentication
+    login-page: http://127.0.0.1:10000/user/login
+    authentication: http://user-edge-service:8888/user/authentication
