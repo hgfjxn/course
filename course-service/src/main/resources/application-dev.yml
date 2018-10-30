@@ -17,4 +17,3 @@ spring:
       name: dubbo
       port: 20880
     scan: win.hgfdodo.course.service
-debug: true
