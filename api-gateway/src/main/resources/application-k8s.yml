@@ -7,7 +7,7 @@ zuul:
   routes:
     course:
       path: /course/**
-      url: http://course-edge-service:9966/course/
+      url: http://course-service:9966/course/
     user:
       path: /user/**
       url: http://user-service:8888/user/

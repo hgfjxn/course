@@ -1,5 +1,5 @@
 spring:
   profiles:
-    active: prod
+    active: k8s
 server:
   port: 9966

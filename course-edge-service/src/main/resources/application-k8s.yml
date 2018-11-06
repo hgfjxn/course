@@ -1,0 +1,11 @@
+spring:
+  dubbo:
+    application:
+      name: course-edge-service
+    registry:
+      address: zookeeper://10.20.13.24:2181
+    scan: win.hgfdodo.course.edge.controller
+user:
+  filter:
+    login-page: http://10.20.13.24:31000/user/login
+    authentication: http://user-service:8888/user/authentication
