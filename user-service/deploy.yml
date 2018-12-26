@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Depoyment
 metadata:
-  name: <NAME>-deploy
+  name: user-service-deploy
 spec:
   template:
     metadata:
       labels: 
-        app: <NAME>
+        app: user-service
     spec:
       containers:
-      - name: <NAME>
-        image: <IMAGE>
+      - name: user-service
+        image: core.harbor.domain/example/user-service:<TAG>
         imagePullPolicy: IfNotPresent 
