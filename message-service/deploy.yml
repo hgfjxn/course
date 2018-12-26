@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Depoyment
+metadata:
+  name: <NAME>-deploy
+spec:
+  template:
+    metadata:
+      labels: 
+        app: <NAME>
+    spec:
+      containers:
+      - name: <NAME>
+        image: <IMAGE>
+        imagePullPolicy: IfNotPresent 
