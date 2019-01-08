@@ -44,8 +44,3 @@ thrift:
 - [ ] 支持任意的protocol  
 
 
-
-
-
-
-
